@@ -99,15 +99,15 @@ function validPreference(change) {
 async function readStudy(request, db) {
   const cached = request.headers.get('If-None-Match');
   if (cached) {
-    const revision = await db.prepare('SELECT revision FROM study_revision WHERE id = 1').first('revision');
+    const revision = await db.prepare('SELECT revision FROM pm_a2_revision WHERE id = 1').first('revision');
     if (cached === `"study-${revision}"`) {
       return new Response(null, { status: 304, headers: { 'Cache-Control': 'no-store', 'ETag': cached } });
     }
   }
   const [revision, answers, preferences] = await db.batch([
-    db.prepare('SELECT revision FROM study_revision WHERE id = 1'),
-    db.prepare('SELECT question AS id, choice, time, seconds FROM study_answers ORDER BY time, question, choice, seconds'),
-    db.prepare('SELECT name, value FROM study_preferences'),
+    db.prepare('SELECT revision FROM pm_a2_revision WHERE id = 1'),
+    db.prepare('SELECT question AS id, choice, time, seconds FROM pm_a2_answers ORDER BY time, question, choice, seconds'),
+    db.prepare('SELECT name, value FROM pm_a2_preferences'),
   ]);
   return reply({
     attempts: answers.results,
@@ -132,21 +132,21 @@ async function writeStudy(request, db) {
     return reply({ error: 'invalid-study-data' }, 400);
   }
   const statements = attempts.map(a => db.prepare(
-    'INSERT INTO study_answers (question, choice, time, seconds) VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING'
+    'INSERT INTO pm_a2_answers (question, choice, time, seconds) VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING'
   ).bind(a.id, a.choice, a.time, a.seconds));
   for (const change of preferences) {
     const keepHigher = change.name === 'challengeBest';
     const condition = keepHigher
-      ? 'CAST(excluded.value AS INTEGER) > CAST(study_preferences.value AS INTEGER)'
-      : '(excluded.edited_at, excluded.change_id) > (study_preferences.edited_at, study_preferences.change_id)';
+      ? 'CAST(excluded.value AS INTEGER) > CAST(pm_a2_preferences.value AS INTEGER)'
+      : '(excluded.edited_at, excluded.change_id) > (pm_a2_preferences.edited_at, pm_a2_preferences.change_id)';
     statements.push(db.prepare(`
-      INSERT INTO study_preferences (name, value, edited_at, change_id) VALUES (?, ?, ?, ?)
+      INSERT INTO pm_a2_preferences (name, value, edited_at, change_id) VALUES (?, ?, ?, ?)
       ON CONFLICT (name) DO UPDATE SET value = excluded.value, edited_at = excluded.edited_at, change_id = excluded.change_id
       WHERE ${condition}
     `).bind(change.name, JSON.stringify(change.value), change.editedAt, change.changeId));
   }
   if (statements.length) {
-    statements.push(db.prepare('UPDATE study_revision SET revision = revision + 1 WHERE id = 1'));
+    statements.push(db.prepare('UPDATE pm_a2_revision SET revision = revision + 1 WHERE id = 1'));
     await db.batch(statements);
   }
   return reply({ saved: true });
