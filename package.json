@@ -1,0 +1,13 @@
+{
+  "name": "pm-a2-cloudflare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "migrate": "wrangler d1 migrations apply pm-a2-study --remote"
+  },
+  "devDependencies": {
+    "wrangler": "4.166.0"
+  }
+}

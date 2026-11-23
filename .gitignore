@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+.dev.vars*
+.env*
+
+dist/sources/*.pdf
+
+dist/sources/*.pdf.tmp
+
+wrangler.local.jsonc

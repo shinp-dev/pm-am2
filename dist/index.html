@@ -1,0 +1,44 @@
+<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#174c49"><title>PM A2 演習室</title><link rel="stylesheet" href="style.css"></head><body>
+<header><a href="#" class="brand"><span class="logo">PM</span><span>A2 演習室<small>PROJECT MANAGER / STUDY ROOM</small></span></a><nav><button id="learnTab" class="tab active">問題演習</button><button id="statsTab" class="tab">学習レポート</button></nav></header>
+<main><section class="intro"><div><h1>プロジェクトマネージャ<span>科目A-2 過去問演習</span></h1><p>公式過去問と選択肢ごとの解説</p></div><div class="edition">IPA公式過去問収録<strong id="coverage">読み込み中</strong><span>旧・午前Ⅱ ／ 非公式の学習サイト</span></div></section>
+<p class="sync-status" data-sync-status role="status">D1 に接続中</p>
+<div id="notice" role="status" aria-live="polite"></div>
+<section id="learn">
+<section class="gym" aria-label="カピバラ育成">
+  <div class="gym-profile">
+    <div class="mascot-medal" aria-hidden="true"><div class="challenge-art gym-mascot" id="gymMascot" data-form="0"></div></div>
+    <div class="gym-profile-content">
+      <div class="gym-dash"><span id="gymLevel"></span><span id="gymStreak"></span></div>
+      <h2 id="gymName">カピバラ育成</h2>
+      <progress id="gymXP" max="60" value="0" aria-label="次のレベルへの経験値"></progress>
+      <p id="gymXPLabel"></p>
+      <p id="gymNextForm"></p>
+      <button id="jumpQuestion" type="button">問題を解く ↓</button>
+    </div>
+  </div>
+  <div class="gym-missions">
+    <div class="gym-heading"><h2>今日のミッション</h2><span id="missionCount"></span></div>
+    <ul id="missionList"></ul>
+    <p class="gym-mission-time">毎日 0:00 に更新（日本時間）</p>
+  </div>
+  <div class="gym-actions">
+    <div><h2>カピバラの5問チャレンジ</h2><p class="challenge-best" id="challengeBest" hidden></p></div>
+    <div class="actions">
+      <button id="gymAwards" type="button">実績を見る</button>
+      <button id="challengeStart" class="primary" type="button">5問チャレンジを始める</button>
+    </div>
+  </div>
+</section>
+<div class="workspace"><aside><div class="side-heading">出題設定<span>FILTER</span></div><label>年度<select id="year"><option value="all">すべての年度</option></select></label><label>分野<select id="topic"><option value="all">すべての分野</option></select></label><label>対象<select id="mode"><option value="all">すべての問題</option><option value="unseen">未回答の問題</option><option value="wrong">直近で間違えた問題</option><option value="star">ブックマーク</option></select></label><label>順序<select id="order"><option value="normal">年度・問番号順</option><option value="random">ランダム</option></select></label><button class="primary full" id="start">この条件で始める</button><p class="small">途中でも設定を変更できます。学習履歴はそのまま残ります。</p><div class="side-heading map-title">問題ナビ<span id="mapCount"></span></div><div id="map" class="map"></div><div class="legend">未回答 <i></i> 正解 <i class="ok"></i> 不正解 <i class="bad"></i></div></aside>
+<article id="question" class="card"></article></div></section>
+<section id="stats" hidden><div class="report-head"><h2>学習レポート</h2><p>初回の理解と、復習後の定着を分けて確認。</p></div><div id="summary" class="summary"></div>
+<section class="gym-achievements" id="gymAchievements" aria-labelledby="awardsTitle">
+  <div class="gym-heading"><h3 id="awardsTitle" tabindex="-1">実績バッジ</h3><span id="awardCount"></span></div>
+  <ul id="awardsList"></ul>
+  <details><summary>経験値の獲得条件</summary>
+    <p>各問題への初回答で5 XP、初正解で15 XP、今日のミッションを1件達成するごとに10 XP。</p>
+    <p>通常演習と5問チャレンジの両方で進みます。育成状況は学習履歴から計算します。</p>
+  </details>
+</section>
+<div class="report-grid"><div class="card"><h3>分野別の傾向</h3><p class="small">累計正答率と回答回数。少数の回答では参考値です。</p><div id="topicsReport"></div></div><div class="card"><h3>学習の記録</h3><div id="history"></div></div></div><div class="card data-card"><div><h3>学習データを持ち運ぶ</h3><p>履歴・ブックマーク・メモは D1 に同期されます。以前の演習室のバックアップも読み込めます。</p></div><div class="actions"><button id="export">バックアップを書き出す</button><label class="file-button">バックアップを読み込む<input type="file" id="import" accept="application/json,.json" hidden></label></div></div></section>
+<footer><p><strong>問題・正答：</strong>独立行政法人情報処理推進機構（IPA）。各問に年度・区分・問番号・原本リンクを掲載。原文の改行・空白は画面用に調整し、図表は原本から切り出しています。</p><p><strong>解説：</strong>本サイト独自のAI作成解説（IPAの公式解説ではありません）。正答は公式解答例と照合。分野分類・図のテキスト補足も独自です。規格を問う問題は出題時の版に基づきます。</p><a href="https://www.ipa.go.jp/shiken/mondai-kaiotu/" target="_blank" rel="noopener">IPA 過去問題一覧 ↗</a><span> · </span><a href="https://www.ipa.go.jp/shiken/faq.html" target="_blank" rel="noopener">過去問題の利用について ↗</a></footer></main><script src="data.js"></script><script src="training.js"></script><script src="sync.js"></script><script src="app.js"></script></body></html>
