@@ -21,7 +21,6 @@ async function login(request, password) {
       return reply({ error: 'content-type' }, 415);
     }
     const body = await request.text();
-    if (body.length > 2048) return reply({ error: 'too-large' }, 413);
     const input = new URLSearchParams(body).get('password') ?? '';
     const supplied = await crypto.subtle.digest('SHA-256', encoder.encode(input));
     const expected = await crypto.subtle.digest('SHA-256', encoder.encode(password));
@@ -156,7 +155,7 @@ async function writeStudy(request, db) {
 export default {
   async fetch(request, env) {
     const password = env.STUDY_PASSWORD;
-    if (typeof password !== 'string' || password.length < 24) return reply({ error: 'STUDY_PASSWORD is missing' }, 503);
+    if (typeof password !== 'string' || !password) return reply({ error: 'STUDY_PASSWORD is missing' }, 503);
     const path = new URL(request.url).pathname;
     if (path === '/login') return login(request, password);
     const api = path.startsWith('/api/');

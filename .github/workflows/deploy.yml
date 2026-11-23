@@ -30,7 +30,7 @@ jobs:
         run: |
           [ -n "$CLOUDFLARE_ACCOUNT_ID" ] || { echo 'Missing CLOUDFLARE_ACCOUNT_ID'; exit 1; }
           [ -n "$CLOUDFLARE_API_TOKEN" ] || { echo 'Missing CLOUDFLARE_API_TOKEN'; exit 1; }
-          [ "${#STUDY_PASSWORD}" -ge 24 ] || { echo 'STUDY_PASSWORD must be at least 24 characters'; exit 1; }
+          [ -n "$STUDY_PASSWORD" ] || { echo 'Missing STUDY_PASSWORD'; exit 1; }
       - name: Prepare D1 and apply migrations
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

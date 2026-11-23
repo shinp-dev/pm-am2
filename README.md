@@ -10,7 +10,7 @@ GitHub Actions のリポジトリシークレットに以下を設定します�
 | --- | --- |
 | `CLOUDFLARE_ACCOUNT_ID` | 対象の Cloudflare アカウント ID |
 | `CLOUDFLARE_API_TOKEN` | 対象アカウントの Workers スクリプトと D1 の編集権限 |
-| `STUDY_PASSWORD` | 演習室にログインするためのランダムな24文字以上のパスワード |
+| `STUDY_PASSWORD` | 演習室にログインするためのパスワード（空欄不可） |
 
 Cloudflare アカウントで `workers.dev` サブドメインを有効にします。main への push または Actions の手動実行で、`pm-a2-study` データベースの作成・マイグレーション・デプロイを行います。URL は成功した Actions の Summary に表示されます。
 
